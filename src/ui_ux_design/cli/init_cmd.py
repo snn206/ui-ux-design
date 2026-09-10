@@ -30,14 +30,19 @@ ALL_CLIS = [
 # ── Config templates (MCP server block shared across IDEs) ─────────────────────
 
 def _detect_python(project_root: Path) -> str:
-    """Detect python executable for the project, preferring local venv."""
+    """Detect python executable for the project, preferring local venv across Win/Mac/Linux."""
     venv_python = project_root / ".venv" / "bin" / "python"
     if venv_python.exists():
         return "${workspaceFolder}/.venv/bin/python"
     venv_win = project_root / ".venv" / "Scripts" / "python.exe"
     if venv_win.exists():
         return "${workspaceFolder}/.venv/Scripts/python.exe"
+    if sys.platform == "win32":
+        return "python"
+    if shutil.which("python3") and not shutil.which("python"):
+        return "python3"
     return "python"
+
 
 
 def _server_block(project_root: Path, var: bool = True) -> dict:
@@ -76,14 +81,18 @@ def _zed_config(project_root: Path) -> str:
 
 def _continue_config(project_root: Path) -> str:
     b = _server_block(project_root, var=False)
+    cmd = json.dumps(b['command'])
+    args = json.dumps(b['args'])
+    cfg = json.dumps(b['env']['UI_MCP_CONFIG'])
     return (
         f"mcpServers:\n"
         f"  - name: ui-ux-design\n"
-        f"    command: {b['command']}\n"
-        f"    args: {b['args']}\n"
+        f"    command: {cmd}\n"
+        f"    args: {args}\n"
         f"    env:\n"
-        f"      UI_MCP_CONFIG: {b['env']['UI_MCP_CONFIG']}\n"
+        f"      UI_MCP_CONFIG: {cfg}\n"
     )
+
 
 
 def _neovim_guide(project_root: Path) -> str:

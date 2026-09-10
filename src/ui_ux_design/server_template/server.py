@@ -21,9 +21,17 @@ PROJECT_ROOT = SERVER_DIR.parent.parent.resolve()
 if str(SERVER_DIR) not in sys.path:
     sys.path.insert(0, str(SERVER_DIR))
 if str(PROJECT_ROOT) not in sys.path:
-    sys.path.append(str(PROJECT_ROOT))
+# Reconfigure UTF-8 for Windows console / stdio
+if sys.platform == "win32":
+    if hasattr(sys.stdin, "reconfigure"):
+        try:
+            sys.stdin.reconfigure(encoding="utf-8")
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
 
 # Setup module aliasing if ui_ux_design is not installed in the current environment
+
 try:
     import ui_ux_design.module_base
 except ImportError:
