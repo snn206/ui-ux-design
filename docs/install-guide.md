@@ -102,12 +102,22 @@ Trình duyệt sẽ mở tại `http://localhost:5173` để bạn nhập thông
 
 ---
 
-## 4. Kết Nối IDEs & CLIs
+## 4. Kết Nối IDEs & CLIs (Quy Chuẩn Đa Nền Tảng)
 
+Hệ thống hỗ trợ tự động cấu hình cho hơn 20 IDE và CLI phổ biến, đảm bảo chạy đúng trên cả **Windows, macOS và Linux**:
 
-Hệ thống hỗ trợ tự động cấu hình cho hơn 20 IDE và CLI phổ biến:
+### 4.1. Quy chuẩn Path Đa Nền Tảng:
+- **Cursor / VS Code / Windsurf / Trae**: Hỗ trợ mở rộng biến workspace. `ui-mcp init` sẽ sinh:
+  - Windows: `"command": "${workspaceFolder}/.venv/Scripts/python.exe"` (hoặc `"python"`)
+  - Linux/macOS: `"command": "${workspaceFolder}/.venv/bin/python"` (hoặc `"python3"`)
+  - `"args": ["${workspaceFolder}/.ui-mcp/server/server.py"]`
+- **Antigravity IDE (`.agents/mcp_config.json`)**: Antigravity không parse biến `${workspaceFolder}`, do đó sử dụng đường dẫn tương đối từ workspace root:
+  - Windows: `"command": "python"`
+  - Linux/macOS: `"command": "python3"`
+  - `"args": [".ui-mcp/server/server.py"]`
+- **Tự động hook Virtualenv**: Khi `server.py` được khởi động, nó tự động kiểm tra xem project có `.venv` hay không (`.venv\Scripts\python.exe` trên Windows, `.venv/bin/python` trên POSIX). Nếu có, server sẽ tự động re-exec vào môi trường ảo của project để nạp đầy đủ dependencies.
 
-### IDEs:
+### 4.2. Danh sách IDEs & CLIs hỗ trợ:
 - **Cursor**: Tự động sinh `.cursor/mcp.json`
 - **VS Code**: Tự động sinh `.vscode/mcp.json` (hỗ trợ stdio transport)
 - **Antigravity (AGY)**: Tự động cấu hình `.agents/mcp_config.json`
@@ -117,8 +127,6 @@ Hệ thống hỗ trợ tự động cấu hình cho hơn 20 IDE và CLI phổ b
 - **Continue.dev**: Tự động tạo `.continue/config.yaml`
 - **Kiro / Minimax**: Tự động cấu hình file mcp json tương ứng
 - **Neovim (Avante / CodeCompanion)**: In snippet cấu hình Lua vào terminal.
-
-### CLIs:
 - **Claude Code**: Sinh snippet `.ui-mcp/claude_snippet.json`
 - **Gemini CLI**: Hướng dẫn thêm server vào `settings.json`
 - **Codex**: Tự động sinh `.ui-mcp/codex_snippet.json`

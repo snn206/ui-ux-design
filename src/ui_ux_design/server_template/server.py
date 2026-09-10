@@ -18,9 +18,21 @@ from pathlib import Path
 SERVER_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SERVER_DIR.parent.parent.resolve()
 
+# Auto-switch to project virtualenv if available and not currently active
+_venv_py = (
+    PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
+    if sys.platform == "win32"
+    else PROJECT_ROOT / ".venv" / "bin" / "python"
+)
+if _venv_py.exists() and Path(sys.executable).resolve() != _venv_py.resolve():
+    import os
+    os.execv(str(_venv_py), [str(_venv_py), *sys.argv])
+
 if str(SERVER_DIR) not in sys.path:
     sys.path.insert(0, str(SERVER_DIR))
 if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
+
 # Reconfigure UTF-8 for Windows console / stdio
 if sys.platform == "win32":
     if hasattr(sys.stdin, "reconfigure"):

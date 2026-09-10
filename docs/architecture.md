@@ -79,19 +79,30 @@ Kỹ năng (Skills) được quản lý qua `.ui-mcp/skills.lock`:
 my-project/
 ├── .ui-mcp/
 │   ├── config.toml           # Cấu hình runtime MCP server
-│   ├── modules.lock          # Quản lý version active của 7 MCP modules
-│   ├── skills.lock           # Quản lý version active của 9 Skills
+│   ├── modules.lock          # Quản lý version active của 9 MCP modules
+│   ├── skills.lock           # Quản lý version active của 10 Skills
 │   └── server/               # ◄─── MCP SERVER TỰ HOST CỦA DỰ ÁN
-│       ├── server.py         # Entrypoint chạy MCP Server qua stdio
+│       ├── server.py         # Entrypoint chạy MCP Server qua stdio (Tự động hook .venv đa nền tảng)
 │       ├── module_registry.py# Module registry cục bộ của project
 │       ├── module_base.py    # Module base interface
-│       ├── models/           # Pydantic schemas cục bộ
-│       └── modules/          # 7 Modules tính toán chuyên sâu (color, layout, ...)
-├── .agents/skills/           # Các thư mục skills cho AI Agent nạp context
+│       ├── models/           # Pydantic schemas cục bộ (color, layout, scene, prompt, component)
+│       └── modules/          # 9 Modules tính toán chuyên sâu (31 tools)
+├── .agents/skills/           # 10 thư mục skills cho AI Agent nạp context (bao gồm ui-prompt-framework)
 │   ├── ui-fundamentals/
 │   ├── ui-color-system/
+│   ├── ui-prompt-framework/
 │   └── ...
 └── .cursor/mcp.json (hoặc .agents/mcp_config.json, .vscode, .zed, ...) 
-    # Cấu hình IDE trỏ trực tiếp: python .ui-mcp/server/server.py
+    # Cấu hình IDE kết nối đa nền tảng (Windows: python / POSIX: python3 hoặc relative path)
 ```
+
+### 3.1. Cơ chế Path Resolution Đa Nền Tảng (Windows, macOS, Linux)
+1. **Dynamic Root Resolution**: `server.py` tự lấy `PROJECT_ROOT` qua `Path(__file__).parent.parent.resolve()`, hoàn toàn độc lập với CWD và không phụ thuộc vào đường dẫn tuyệt đối cứng của máy dev.
+2. **Smart Virtualenv Re-exec**:
+   - Tự động nhận diện `.venv/Scripts/python.exe` (Windows) hoặc `.venv/bin/python` (Linux/macOS).
+   - Nếu phát hiện dự án có `.venv` nhưng IDE kích hoạt server bằng Python hệ thống, `server.py` tự động dùng `os.execv` nhảy vào môi trường ảo của dự án.
+3. **IDE Portability**:
+   - Cursor / VS Code: Sử dụng `${workspaceFolder}` kết hợp đúng đường dẫn Python theo OS.
+   - Antigravity IDE (`.agents/mcp_config.json`): Sử dụng đường dẫn tương đối chuẩn (`args: [".ui-mcp/server/server.py"]`), loại bỏ hoàn toàn biến `${workspaceFolder}` không được hỗ trợ.
+
 

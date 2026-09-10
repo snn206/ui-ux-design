@@ -11,6 +11,7 @@ Flow on startup:
 from __future__ import annotations
 
 import importlib
+import importlib.util
 import logging
 import sys
 from dataclasses import dataclass
@@ -224,7 +225,6 @@ class ModuleRegistry:
             file_path = self._modules_dir / name / f"v{major}" / "tools.py"
             if file_path.exists():
                 try:
-                    import importlib.util
                     spec = importlib.util.spec_from_file_location(f"local_{name}_v{major}", file_path)
                     if spec and spec.loader:
                         mod = importlib.util.module_from_spec(spec)

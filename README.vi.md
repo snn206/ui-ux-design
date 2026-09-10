@@ -44,16 +44,30 @@ Hệ thống được thiết kế theo mô hình **Global CLI + Project Self-Ho
    ui-mcp init
    ```
    Lệnh `init` sẽ:
-   - **Tự host MCP Server trong dự án**: Sao chép mã nguồn server, 7 modules tính toán và models vào `.ui-mcp/server/` của dự án.
-   - Sao chép 9 bộ kỹ năng vào `.agents/skills/`.
-   - Cấu hình IDE (Cursor, VS Code, Antigravity...) trỏ trực tiếp vào `${workspaceFolder}/.ui-mcp/server/server.py`.
+   - **Tự host MCP Server trong dự án**: Sao chép mã nguồn server, 9 modules tính toán và models vào `.ui-mcp/server/` của dự án.
+   - Sao chép 10 bộ kỹ năng chống AI UI vào `.agents/skills/` (bao gồm `ui-prompt-framework`).
+   - Cấu hình IDE (Cursor, VS Code, Antigravity...) kết nối đa nền tảng chuẩn xác.
 
-3. **Khởi chạy MCP Server của Dự án**:
+3. **Cơ Chế Đa Nền Tảng (Windows / macOS / Linux) Của Self-Hosted Server**:
+   - **Tự định vị động (Zero-Hardcode)**: Server `.ui-mcp/server/server.py` tự định vị project root qua `Path(__file__)`, không phụ thuộc vào thư mục làm việc (CWD) hay đường dẫn tuyệt đối của máy cá nhân.
+   - **Tự động hook Virtualenv (Smart Python Re-exec)**:
+     - Trên **Windows**: Tự động phát hiện `.venv\Scripts\python.exe`
+     - Trên **Linux/macOS**: Tự động phát hiện `.venv/bin/python`
+     - Kể cả khi IDE gọi server bằng lệnh Python mặc định của hệ thống (`python` trên Win hoặc `python3` trên POSIX), `server.py` vẫn tự động chuyển sang môi trường `.venv` nội bộ để nạp đầy đủ dependencies (`mcp`, `pydantic`,...).
+   - **Cấu hình IDE tương thích 100%**:
+     - *Cursor & VS Code*: Dùng biến `${workspaceFolder}` theo đúng chuẩn OS (`.venv/Scripts/python.exe` trên Windows, `.venv/bin/python` trên POSIX).
+     - *Antigravity IDE (`.agents/mcp_config.json`)*: Dùng đường dẫn tương đối (`"command": "python"` trên Win, `"python3"` trên POSIX, `"args": [".ui-mcp/server/server.py"]`) do Antigravity không hỗ trợ biến `${workspaceFolder}`.
+     - *Cách chạy đồng nhất*: Có thể dùng lệnh `ui-mcp serve` trên mọi hệ điều hành.
+
+4. **Khởi chạy MCP Server của Dự án**:
    - Khi mở IDE, IDE sẽ tự động kích hoạt MCP Server cục bộ của dự án.
    - Hoặc chạy thủ công trong thư mục dự án:
      ```bash
+     # Trên Windows:
      python .ui-mcp/server/server.py
-     # Hoặc dùng lệnh:
+     # Trên Linux / macOS:
+     python3 .ui-mcp/server/server.py
+     # Hoặc dùng CLI chung:
      ui-mcp serve
      ```
 
@@ -97,12 +111,12 @@ ui-mcp version rollback
 | **`ui-mcp version rollback`** | **Rollback nhanh**: quay lại version trước đó của dự án |
 | **`ui-mcp serve`** | **Chạy MCP Server** (kết nối stdio cho IDEs/CLIs như Cursor, VS Code, Claude, Zed, AGY...) |
 | **`python -m ui_ux_design.mcp_server`** | Chạy MCP Server trực tiếp qua Python runtime |
-| **`npx @modelcontextprotocol/inspector ui-mcp serve`** | **Mở Web UI** (`http://localhost:5173`) để test trực quan 18 MCP tools |
-| **`ui-mcp init`** | **Khởi tạo dự án**: tự động phát hiện IDE, copy 9 Skills và tạo file config kết nối |
+| **`npx @modelcontextprotocol/inspector ui-mcp serve`** | **Mở Web UI** (`http://localhost:5173`) để test trực quan 31 MCP tools |
+| **`ui-mcp init`** | **Khởi tạo dự án**: tự động phát hiện IDE/OS, copy 10 Skills và tạo file config kết nối |
 | **`ui-mcp init --ide cursor,vscode,agy`** | Khởi tạo với cấu hình cụ thể cho Cursor, VS Code, Antigravity |
-| **`ui-mcp module status`** | Kiểm tra trạng thái sức khỏe (Health status) và version của 7 Modules |
+| **`ui-mcp module status`** | Kiểm tra trạng thái sức khỏe (Health status) và version của 9 Modules |
 | **`ui-mcp module rollback <name>`** | Rollback một module về version ổn định trước đó |
-| **`ui-mcp skills list`** | Xem danh sách 9 bộ skills và version đang active |
+| **`ui-mcp skills list`** | Xem danh sách 10 bộ skills và version đang active |
 | **`ui-mcp skills rollback <skill>`** | Rollback một skill về version trước đó |
 | **`ui-mcp prompt list`** | Liệt kê các prompt templates thiết kế UI có sẵn |
 | **`ui-mcp prompt show <name>`** | Hiển thị nội dung hướng dẫn của một prompt template |

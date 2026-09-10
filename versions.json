@@ -95,6 +95,11 @@
       "name": "MCP Tools Manual",
       "description": "Hướng dẫn và bản đồ tham chiếu cho 18 MCP tools",
       "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-prompt-framework": {
+      "name": "UI Prompt Thinking Framework",
+      "description": "Framework tư duy 11-section chống AI UI cho mọi task thiết kế UI",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
     }
   }
 }

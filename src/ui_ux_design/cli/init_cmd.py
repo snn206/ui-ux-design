@@ -29,14 +29,16 @@ ALL_CLIS = [
 
 # ── Config templates (MCP server block shared across IDEs) ─────────────────────
 
-def _detect_python(project_root: Path) -> str:
+def _detect_python(project_root: Path, var: bool = True) -> str:
     """Detect python executable for the project, preferring local venv across Win/Mac/Linux."""
     venv_python = project_root / ".venv" / "bin" / "python"
     if venv_python.exists():
-        return "${workspaceFolder}/.venv/bin/python"
+        return "${workspaceFolder}/.venv/bin/python" if var else str(venv_python.resolve())
     venv_win = project_root / ".venv" / "Scripts" / "python.exe"
     if venv_win.exists():
-        return "${workspaceFolder}/.venv/Scripts/python.exe"
+        return "${workspaceFolder}/.venv/Scripts/python.exe" if var else str(venv_win.resolve())
+    if not var:
+        return sys.executable
     if sys.platform == "win32":
         return "python"
     if shutil.which("python3") and not shutil.which("python"):
@@ -47,10 +49,11 @@ def _detect_python(project_root: Path) -> str:
 
 def _server_block(project_root: Path, var: bool = True) -> dict:
     """Return the MCP server config dict pointing to project's self-hosted server."""
-    cwd = "${workspaceFolder}" if var else str(project_root)
-    cfg_path = "${workspaceFolder}/.ui-mcp/config.toml" if var else str(project_root / ".ui-mcp/config.toml")
-    py_cmd = _detect_python(project_root) if var else sys.executable
-    server_script = "${workspaceFolder}/.ui-mcp/server/server.py" if var else str(project_root / ".ui-mcp/server/server.py")
+    root_path = project_root.resolve() if not var else project_root
+    cwd = "${workspaceFolder}" if var else str(root_path)
+    cfg_path = "${workspaceFolder}/.ui-mcp/config.toml" if var else str(root_path / ".ui-mcp/config.toml")
+    py_cmd = _detect_python(project_root, var=var)
+    server_script = "${workspaceFolder}/.ui-mcp/server/server.py" if var else str(root_path / ".ui-mcp/server/server.py")
     return {
         "command": py_cmd,
         "args": [server_script],
@@ -131,8 +134,8 @@ def _manual_guide(tool: str):
 
 
 IDE_CONFIG_MAP = {
-    "agy":      (".agents/mcp_config.json",        lambda r: json.dumps(_mcp_servers_json(r), indent=2)),
-    "cursor":   (".cursor/mcp.json",               lambda r: json.dumps(_mcp_servers_json(r), indent=2)),
+    "agy":      (".agents/mcp_config.json",        lambda r: json.dumps(_mcp_servers_json(r, var=False), indent=2)),
+    "cursor":   (".cursor/mcp.json",               lambda r: json.dumps(_mcp_servers_json(r, var=True), indent=2)),
     "vscode":   (".vscode/mcp.json",               lambda r: json.dumps(_mcp_servers_json_vscode(r), indent=2)),
     "kiro":     (".kiro/mcp.json",                  lambda r: json.dumps(_mcp_servers_json(r), indent=2)),
     "trae":     (".trae/mcp_config.json",           lambda r: json.dumps(_mcp_servers_json(r), indent=2)),
