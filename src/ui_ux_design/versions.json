@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "repository": "snn206/ui-ux-design",
+  "description": "Official Anti-AI-UI Skills & MCP System Version Registry on GitHub",
+  "latest_release": "v1.0.0",
+  "releases": {
+    "v1.0.0": {
+      "tag": "v1.0.0",
+      "version": "1.0.0",
+      "date": "2026-03-01",
+      "type": "stable",
+      "name": "Foundation Release",
+      "description": "Bản phát hành nền tảng chuẩn hóa: 9 Anti-AI-UI skills, 18 MCP tools, hỗ trợ 20+ IDEs & CLIs.",
+      "download_url": "https://github.com/snn206/ui-ux-design/releases/download/v1.0.0/ui-ux-skills-v1.0.0.zip",
+      "archive_fallback_url": "https://github.com/snn206/ui-ux-design/archive/refs/tags/v1.0.0.zip",
+      "changelog": [
+        "Khởi tạo 9 bộ kỹ năng chuẩn hóa UI/UX (.agents/skills/*)",
+        "Tích hợp 18 công cụ tính toán MCP cho Color, Layout, Animation, 2.5D, 3D và UI Quality Review",
+        "Tự động nhận diện cấu hình cho Cursor, VS Code, Antigravity, Zed, Windsurf, Claude Code, Gemini CLI..."
+      ]
+    },
+    "v1.1.0": {
+      "tag": "v1.1.0",
+      "version": "1.1.0",
+      "date": "2026-06-15",
+      "type": "feature",
+      "name": "Enhanced Visual Tokens & Micro-motions",
+      "description": "Nâng cấp tokens màu chuyên sâu, đường cong chuyển động Easing và PBR 3D material presets.",
+      "download_url": "https://github.com/snn206/ui-ux-design/releases/download/v1.1.0/ui-ux-skills-v1.1.0.zip",
+      "archive_fallback_url": "https://github.com/snn206/ui-ux-design/archive/refs/tags/v1.1.0.zip",
+      "changelog": [
+        "Mở rộng hệ thống token HSL & WCAG AAA trong ui-color-system",
+        "Bổ sung công thức vật lý lò xo (spring physics) và non-linear easing trong ui-animation",
+        "Bổ sung thiết lập 3-point lighting và PBR materials trong ui-3d-scene"
+      ]
+    },
+    "v1.2.0": {
+      "tag": "v1.2.0",
+      "version": "1.2.0",
+      "date": "2026-09-01",
+      "type": "preview",
+      "name": "Next-Gen Spatial UI & Anti-Patterns Catalog",
+      "description": "Quy chuẩn giao diện không gian (Spatial UI), hiệu ứng kính mờ (Glassmorphism) và cập nhật 10 AI UI smells.",
+      "download_url": "https://github.com/snn206/ui-ux-design/releases/download/v1.2.0/ui-ux-skills-v1.2.0.zip",
+      "archive_fallback_url": "https://github.com/snn206/ui-ux-design/archive/refs/tags/v1.2.0.zip",
+      "changelog": [
+        "Bộ quy chuẩn Spatial Depth và Dynamic Elevation tokens trong ui-25d-depth",
+        "Cập nhật danh mục AI UI Smells mới nhất năm 2026 trong ui-anti-patterns",
+        "Tối ưu hóa bộ công cụ MCP quality review với các tiêu chí khắt khe hơn"
+      ]
+    }
+  },
+  "skills": {
+    "ui-fundamentals": {
+      "name": "UI Fundamentals",
+      "description": "Kiến thức nền tảng UI/UX: Gestalt laws, CRAP principles, 8px grid, visual hierarchy",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-2d-layout": {
+      "name": "2D Layout Architecture",
+      "description": "Kiến trúc layout 2D: box model, flexbox, CSS Grid, spacing scale, responsive breakpoints",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-25d-depth": {
+      "name": "2.5D Depth & Elevation",
+      "description": "Kỹ thuật 2.5D: elevation shadows, parallax layers, z-index stacking, CSS perspective",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-3d-scene": {
+      "name": "3D Scene Architecture",
+      "description": "Kiến trúc 3D scene: scene graph, camera setup, 3-point lighting, PBR materials",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-color-system": {
+      "name": "Color System",
+      "description": "Hệ thống màu chuyên nghiệp: HSL model, palette generation, WCAG contrast, dark tokens",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-animation": {
+      "name": "Motion Design",
+      "description": "Motion design: Disney 12 principles, easing curves, spring physics, duration guidelines",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-typography": {
+      "name": "Typography System",
+      "description": "Typographic system: modular type scale, line height, letter spacing, font pairing",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-anti-patterns": {
+      "name": "Anti-Patterns Catalog",
+      "description": "Catalog 10 AI UI Smell phổ biến nhất và giải pháp khắc phục",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    },
+    "ui-mcp-tools": {
+      "name": "MCP Tools Manual",
+      "description": "Hướng dẫn và bản đồ tham chiếu cho 18 MCP tools",
+      "versions": ["1.0.0", "1.1.0", "1.2.0"]
+    }
+  }
+}

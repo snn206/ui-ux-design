@@ -1,0 +1,10 @@
+{
+  "context_servers": {
+    "ui-ux-design": {
+      "command": {
+        "path": "python",
+        "args": ["-m", "ui_ux_design.mcp_server"]
+      }
+    }
+  }
+}

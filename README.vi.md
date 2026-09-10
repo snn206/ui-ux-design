@@ -1,9 +1,9 @@
 <div align="center">
 
-  # 🎨 ui-ux-design
+  # 🎨 Anti-AI-UI Skills & MCP System (`ui-ux-design`)
 
   <p align="center">
-    <strong>Dự án đang trong giai đoạn khởi tạo và phát triển ban đầu.</strong>
+    <strong>Hệ thống chuẩn hóa tư duy thiết kế UI/UX cho AI Coding Agents — Chống UI rác, hiểu sâu kiến trúc 2D / 2.5D / 3D.</strong>
   </p>
 
   <!-- Language Switcher -->
@@ -14,9 +14,112 @@
 
   <!-- Badges -->
   <p align="center">
-    <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Phiên bản Python"/>
+    <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Phiên bản Python"/>
     <img src="https://img.shields.io/badge/Trình%20quản%20lý%20gói-uv-DE5FE9?style=flat-square&logo=astral&logoColor=white" alt="uv"/>
-    <img src="https://img.shields.io/badge/Trạng%20thái-Đang%20phát%20triển-orange?style=flat-square" alt="Trạng thái"/>
+    <img src="https://img.shields.io/badge/MCP-Protocol%20v1.0-blue?style=flat-square" alt="MCP Protocol"/>
+    <img src="https://img.shields.io/badge/GitHub-Version%20Store-blueviolet?style=flat-square" alt="GitHub Store"/>
+    <img src="https://img.shields.io/badge/Nền%20tảng-Windows%20%7C%20macOS%20%7C%20Linux-teal?style=flat-square" alt="Nền tảng"/>
   </p>
 
 </div>
+
+---
+
+## 🚀 1. Luồng Hoạt Động & Cài Đặt (Architecture Workflow)
+
+Hệ thống được thiết kế theo mô hình **Global CLI + Project Self-Hosted MCP Server**:
+
+1. **Cài đặt CLI toàn cục (Global Install - Chỉ làm 1 lần)**:
+   ```bash
+   # Cài đặt qua uv (Khuyên dùng):
+   uv tool install --editable .
+
+   # Hoặc cài đặt qua pip:
+   pip install --user .
+   ```
+
+2. **Vào bất kỳ dự án nào và Khởi tạo Tự Host (Project Self-Hosting)**:
+   ```bash
+   cd my-project
+   ui-mcp init
+   ```
+   Lệnh `init` sẽ:
+   - **Tự host MCP Server trong dự án**: Sao chép mã nguồn server, 7 modules tính toán và models vào `.ui-mcp/server/` của dự án.
+   - Sao chép 9 bộ kỹ năng vào `.agents/skills/`.
+   - Cấu hình IDE (Cursor, VS Code, Antigravity...) trỏ trực tiếp vào `${workspaceFolder}/.ui-mcp/server/server.py`.
+
+3. **Khởi chạy MCP Server của Dự án**:
+   - Khi mở IDE, IDE sẽ tự động kích hoạt MCP Server cục bộ của dự án.
+   - Hoặc chạy thủ công trong thư mục dự án:
+     ```bash
+     python .ui-mcp/server/server.py
+     # Hoặc dùng lệnh:
+     ui-mcp serve
+     ```
+
+
+---
+
+## 📦 2. Kho Version GitHub & Đổi Version Dễ Dàng
+
+Kho version chính thức được lưu trữ trực tiếp trên GitHub: `https://github.com/snn206/ui-ux-design`. Người dùng có thể duyệt, tải về cache máy và đổi version chỉ bằng một lệnh duy nhất:
+
+```bash
+# 1. Duyệt danh sách các phiên bản có trên GitHub
+ui-mcp version list
+
+# 2. Xem trạng thái phiên bản dự án hiện tại
+ui-mcp version status
+
+# 3. Đổi sang phiên bản ổn định từ GitHub (tự động tải và áp dụng)
+ui-mcp version switch v1.0.0
+
+# 4. Đổi sang bản phát hành mới nhất
+ui-mcp version switch latest
+
+# 5. Đổi sang bản từ mã nguồn hiện tại (local development)
+ui-mcp version switch local
+
+# 6. Quay lại phiên bản trước đó bất kỳ lúc nào
+ui-mcp version rollback
+```
+
+---
+
+## ⚡ 3. Bảng Tổng Hợp Lệnh Chạy (Run Commands Cheat-Sheet)
+
+| Lệnh | Mô tả |
+|---|---|
+| **`ui-mcp version status`** | **Xem tổng quan version**: trạng thái active, bản mới nhất trên GitHub, cache |
+| **`ui-mcp version list`** | **Duyệt Kho Version**: xem các release có sẵn trên GitHub (`v1.0.0`, `v1.1.0`...) |
+| **`ui-mcp version switch <tag>`** | **Đổi version tức thì**: tải từ GitHub và kích hoạt (`v1.0.0`, `latest`, `local`) |
+| **`ui-mcp version pull <tag>`** | **Tải trước về máy**: lưu trữ bản release vào local cache (~/.config) |
+| **`ui-mcp version rollback`** | **Rollback nhanh**: quay lại version trước đó của dự án |
+| **`ui-mcp serve`** | **Chạy MCP Server** (kết nối stdio cho IDEs/CLIs như Cursor, VS Code, Claude, Zed, AGY...) |
+| **`python -m ui_ux_design.mcp_server`** | Chạy MCP Server trực tiếp qua Python runtime |
+| **`npx @modelcontextprotocol/inspector ui-mcp serve`** | **Mở Web UI** (`http://localhost:5173`) để test trực quan 18 MCP tools |
+| **`ui-mcp init`** | **Khởi tạo dự án**: tự động phát hiện IDE, copy 9 Skills và tạo file config kết nối |
+| **`ui-mcp init --ide cursor,vscode,agy`** | Khởi tạo với cấu hình cụ thể cho Cursor, VS Code, Antigravity |
+| **`ui-mcp module status`** | Kiểm tra trạng thái sức khỏe (Health status) và version của 7 Modules |
+| **`ui-mcp module rollback <name>`** | Rollback một module về version ổn định trước đó |
+| **`ui-mcp skills list`** | Xem danh sách 9 bộ skills và version đang active |
+| **`ui-mcp skills rollback <skill>`** | Rollback một skill về version trước đó |
+| **`ui-mcp prompt list`** | Liệt kê các prompt templates thiết kế UI có sẵn |
+| **`ui-mcp prompt show <name>`** | Hiển thị nội dung hướng dẫn của một prompt template |
+| **`ui-mcp prompt compose <p1> <p2>`** | Ghép các prompt theo ngữ cảnh (`--platform`, `--framework`) |
+| **`pytest tests/`** | Chạy toàn bộ Test Suite kiểm thử hệ thống |
+
+---
+
+## 🛠️ 4. Hỗ Trợ 20+ IDEs & CLIs
+
+Hệ thống hỗ trợ tự động nhận diện và tạo cấu hình MCP kết nối cho:
+- **IDEs**: Cursor, VS Code, Antigravity (AGY), Zed, Windsurf, Trae, Continue.dev, Kiro, Minimax, Neovim.
+- **CLIs**: Claude Code, Gemini CLI, Codex, OpenCode, Kilo, Warp Terminal, Codebuff, Freebuff, Grok, Mistral, Pi.
+
+---
+
+## 📚 5. Tài Liệu Chi Tiết
+
+- [docs/install-guide.md](docs/install-guide.md): Hướng dẫn cài đặt cross-platform và chi tiết các lệnh chạy.
+- [docs/architecture.md](docs/architecture.md): Thiết kế kiến trúc sâu, cơ chế quản lý version và Kho Version GitHub.

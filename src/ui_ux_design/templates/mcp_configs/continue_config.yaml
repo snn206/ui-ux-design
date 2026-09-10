@@ -1,0 +1,8 @@
+mcpServers:
+  - name: ui-ux-design
+    command: python
+    args:
+      - -m
+      - ui_ux_design.mcp_server
+    env:
+      UI_MCP_CONFIG: "${workspaceFolder}/.ui-mcp/config.toml"

@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "ui-ux-design": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "ui_ux_design.mcp_server"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "UI_MCP_CONFIG": "${workspaceFolder}/.ui-mcp/config.toml"
+      }
+    }
+  }
+}
