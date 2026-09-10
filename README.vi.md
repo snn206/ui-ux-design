@@ -29,13 +29,29 @@
 
 Hệ thống được thiết kế theo mô hình **Global CLI + Project Self-Hosted MCP Server**:
 
-1. **Cài đặt CLI toàn cục (Global Install - Chỉ làm 1 lần)**:
+1. **Cài đặt CLI toàn cục từ GitHub (Global Install - Chỉ làm 1 lần)**:
+   
+   **Cách A: Cài trực tiếp từ GitHub Repository (Khuyên dùng)**:
    ```bash
-   # Cài đặt qua uv (Khuyên dùng):
-   uv tool install --editable .
+   # Cài đặt qua uv tool (Nhanh, cách ly môi trường sạch sẽ):
+   uv tool install git+https://github.com/snn206/ui-ux-design.git
 
    # Hoặc cài đặt qua pip:
-   pip install --user .
+   pip install git+https://github.com/snn206/ui-ux-design.git
+
+   # Cài đặt một Version / Release Tag cụ thể từ GitHub (ví dụ: v1.0.0, v1.1.0, v1.2.0):
+   pip install git+https://github.com/snn206/ui-ux-design.git@v1.0.0
+   ```
+
+   **Cách B: Clone mã nguồn về máy để phát triển cục bộ (Local Development)**:
+   ```bash
+   git clone https://github.com/snn206/ui-ux-design.git
+   cd ui-ux-design
+
+   # Cài đặt dạng editable để cập nhật code realtime:
+   uv tool install --editable .
+   # hoặc:
+   pip install -e .
    ```
 
 2. **Vào bất kỳ dự án nào và Khởi tạo Tự Host (Project Self-Hosting)**:

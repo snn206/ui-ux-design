@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python Version"/>
     <img src="https://img.shields.io/badge/Package%20Manager-uv-DE5FE9?style=flat-square&logo=astral&logoColor=white" alt="uv"/>
     <img src="https://img.shields.io/badge/MCP-Protocol%20v1.0-blue?style=flat-square" alt="MCP Protocol"/>
-    <img src="https://img.shields.io/badge/Tests-17%20Passed-brightgreen?style=flat-square" alt="Tests"/>
+    <img src="https://img.shields.io/badge/Tests-37%20Passed-brightgreen?style=flat-square" alt="Tests"/>
     <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-teal?style=flat-square" alt="Platform"/>
   </p>
 
@@ -23,13 +23,29 @@
 
 Hệ thống được thiết kế theo mô hình **Global CLI + Project Self-Hosted MCP Server**:
 
-1. **Cài đặt CLI toàn cục (Global Install - Chỉ làm 1 lần)**:
+1. **Cài đặt CLI toàn cục từ GitHub (Global Install - Chỉ làm 1 lần)**:
+   
+   **Cách A: Cài trực tiếp từ GitHub Repository (Khuyên dùng)**:
    ```bash
-   # Cài đặt qua uv (Khuyên dùng):
-   uv tool install --editable .
+   # Cài đặt qua uv tool (Nhanh, cách ly môi trường sạch sẽ):
+   uv tool install git+https://github.com/snn206/ui-ux-design.git
 
    # Hoặc cài đặt qua pip:
-   pip install --user .
+   pip install git+https://github.com/snn206/ui-ux-design.git
+
+   # Cài đặt một Version / Release Tag cụ thể từ GitHub (ví dụ: v1.0.0, v1.1.0, v1.2.0):
+   pip install git+https://github.com/snn206/ui-ux-design.git@v1.0.0
+   ```
+
+   **Cách B: Clone mã nguồn về máy để phát triển cục bộ (Local Development)**:
+   ```bash
+   git clone https://github.com/snn206/ui-ux-design.git
+   cd ui-ux-design
+
+   # Cài đặt dạng editable để cập nhật code realtime:
+   uv tool install --editable .
+   # hoặc:
+   pip install -e .
    ```
 
 2. **Vào bất kỳ dự án nào và Khởi tạo Tự Host (Project Self-Hosting)**:
@@ -68,7 +84,33 @@ Hệ thống được thiết kế theo mô hình **Global CLI + Project Self-Ho
 
 ---
 
-## ⚡ 2. Bảng Tổng Hợp Lệnh Chạy (Run Commands Cheat-Sheet)
+## 📦 2. Kho Version GitHub & Đổi Version Dễ Dàng (GitHub Version Store & Switching)
+
+Kho version chính thức được lưu trữ trực tiếp trên GitHub: `https://github.com/snn206/ui-ux-design`. Người dùng có thể duyệt, tải về cache máy và đổi version chỉ bằng một lệnh duy nhất:
+
+```bash
+# 1. Duyệt danh sách các phiên bản có trên GitHub
+ui-mcp version list
+
+# 2. Xem trạng thái phiên bản dự án hiện tại
+ui-mcp version status
+
+# 3. Đổi sang phiên bản ổn định từ GitHub (tự động tải và áp dụng)
+ui-mcp version switch v1.0.0
+
+# 4. Đổi sang bản phát hành mới nhất
+ui-mcp version switch latest
+
+# 5. Đổi sang bản từ mã nguồn hiện tại (local development)
+ui-mcp version switch local
+
+# 6. Quay lại phiên bản trước đó bất kỳ lúc nào
+ui-mcp version rollback
+```
+
+---
+
+## ⚡ 3. Bảng Tổng Hợp Lệnh Chạy (Run Commands Cheat-Sheet)
 
 | Lệnh | Mô tả |
 |---|---|

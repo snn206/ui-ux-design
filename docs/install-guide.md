@@ -55,9 +55,10 @@ ui-mcp init --ide all
 Lệnh `ui-mcp init` sẽ:
 1. Tạo thư mục `.ui-mcp/` chứa:
    - `config.toml`: Cấu hình server
-   - `modules.lock`: Quản lý version 7 module MCP
-   - `skills.lock`: Quản lý version 9 bộ skills
-2. Copy 9 bộ skills vào `.agents/skills/` (hoặc thư mục tương ứng)
+   - `modules.lock`: Quản lý version 9 module MCP
+   - `skills.lock`: Quản lý version 10 bộ skills
+2. Copy 10 bộ skills vào `.agents/skills/` (bao gồm `ui-prompt-framework`)
+3. Tạo self-hosted server tại `.ui-mcp/server/` với đầy đủ models, modules và khả năng tự động nhận diện venv đa nền tảng.
 3. Sinh file cấu hình MCP kết nối tự động cho các IDE/CLI được chọn.
 
 ---
@@ -136,9 +137,35 @@ Hệ thống hỗ trợ tự động cấu hình cho hơn 20 IDE và CLI phổ b
 - **Codebuff / Freebuff**: Tự động cấu hình `.codebuff/mcp.json` / `.freebuff/mcp.json`
 - **Grok / Mistral / Pi**: Hướng dẫn cấu hình manual khi kết nối stdio.
 
+### 3.4. Quản lý & Chuyển đổi Version từ GitHub Store (`ui-mcp version`)
+Kho version chính thức được lưu trữ trực tiếp trên GitHub: `https://github.com/snn206/ui-ux-design`. Bạn có thể duyệt, tải về cache máy và đổi version của toàn bộ hệ thống skills & modules chỉ bằng một lệnh:
+
+```bash
+# Xem trạng thái phiên bản dự án hiện tại và so sánh với GitHub:
+ui-mcp version status
+
+# Duyệt danh sách các phiên bản có sẵn trên GitHub (v1.0.0, v1.1.0, v1.2.0...):
+ui-mcp version list
+
+# Chuyển sang một phiên bản cụ thể (tự động tải từ GitHub releases và áp dụng):
+ui-mcp version switch v1.0.0
+
+# Chuyển sang bản phát hành mới nhất:
+ui-mcp version switch latest
+
+# Chuyển sang dùng mã nguồn phát triển cục bộ:
+ui-mcp version switch local
+
+# Tải trước gói release về local cache máy (~/.config/ui-ux-design):
+ui-mcp version pull v1.1.0
+
+# Quay lại phiên bản trước đó bất kỳ lúc nào:
+ui-mcp version rollback
+```
+
 ---
 
-## 4. Quản lý Rollback Modules & Skills
+## 4. Quản lý Rollback Modules & Skills Cục Bộ
 
 ### Quản lý Module MCP:
 ```bash
