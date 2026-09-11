@@ -19,12 +19,14 @@ SERVER_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SERVER_DIR.parent.parent.resolve()
 
 # Auto-switch to project virtualenv if available and not currently active
+_venv_dir = PROJECT_ROOT / ".venv"
 _venv_py = (
-    PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
+    _venv_dir / "Scripts" / "python.exe"
     if sys.platform == "win32"
-    else PROJECT_ROOT / ".venv" / "bin" / "python"
+    else _venv_dir / "bin" / "python"
 )
-if _venv_py.exists() and Path(sys.executable).resolve() != _venv_py.resolve():
+_in_this_venv = _venv_dir.exists() and Path(sys.prefix).resolve() == _venv_dir.resolve()
+if _venv_py.exists() and not _in_this_venv:
     import os
     os.execv(str(_venv_py), [str(_venv_py), *sys.argv])
 
@@ -32,6 +34,9 @@ if str(SERVER_DIR) not in sys.path:
     sys.path.insert(0, str(SERVER_DIR))
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
+src_dir = PROJECT_ROOT / "src"
+if src_dir.exists() and str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
 # Reconfigure UTF-8 for Windows console / stdio
 if sys.platform == "win32":
@@ -43,24 +48,32 @@ if sys.platform == "win32":
             pass
 
 # Setup module aliasing if ui_ux_design is not installed in the current environment
-
 try:
     import ui_ux_design.module_base
 except ImportError:
     import types
     import module_base
-    import module_registry
-    import models
 
     pkg = types.ModuleType("ui_ux_design")
+    pkg.__path__ = [str(SERVER_DIR)]
     pkg.module_base = module_base
-    pkg.module_registry = module_registry
-    pkg.models = models
-
     sys.modules["ui_ux_design"] = pkg
     sys.modules["ui_ux_design.module_base"] = module_base
-    sys.modules["ui_ux_design.module_registry"] = module_registry
+
+    import models
+    pkg.models = models
     sys.modules["ui_ux_design.models"] = models
+
+    for model_file in (SERVER_DIR / "models").glob("*.py"):
+        if model_file.stem != "__init__":
+            import importlib
+            m = importlib.import_module(f"models.{model_file.stem}")
+            setattr(models, model_file.stem, m)
+            sys.modules[f"ui_ux_design.models.{model_file.stem}"] = m
+
+    import module_registry
+    pkg.module_registry = module_registry
+    sys.modules["ui_ux_design.module_registry"] = module_registry
 
 try:
     from mcp.server.mcpserver import MCPServer
@@ -114,7 +127,10 @@ async def _run() -> None:
 
 def serve() -> None:
     """Entry point: start MCP server on stdio."""
-    asyncio.run(_run())
+    try:
+        asyncio.run(_run())
+    except (KeyboardInterrupt, SystemExit):
+        pass
 
 
 if __name__ == "__main__":

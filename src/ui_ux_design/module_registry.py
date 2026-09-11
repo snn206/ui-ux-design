@@ -23,8 +23,16 @@ if sys.version_info >= (3, 11):
 else:
     import tomli as tomllib
 
-from ui_ux_design.module_base import MCPModule, HealthStatus, ModuleInfo
-from ui_ux_design.platform import PROJECT_MODULES_LOCK, PACKAGE_DIR
+try:
+    from ui_ux_design.module_base import MCPModule, HealthStatus, ModuleInfo
+except ImportError:
+    from module_base import MCPModule, HealthStatus, ModuleInfo
+
+try:
+    from ui_ux_design.platform import PROJECT_MODULES_LOCK, PACKAGE_DIR
+except ImportError:
+    PROJECT_MODULES_LOCK = Path(__file__).parent.parent / "modules.lock"
+    PACKAGE_DIR = Path(__file__).parent
 
 logger = logging.getLogger(__name__)
 

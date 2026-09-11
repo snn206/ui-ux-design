@@ -74,7 +74,7 @@ ui-mcp serve
 *(Hoặc chạy qua Python module:* `python -m ui_ux_design.mcp_server`*)*
 
 ### 3.2. Lệnh chạy Web UI tương tác thử nghiệm (MCP Inspector)
-Dùng lệnh này để mở giao diện Web trên trình duyệt, giúp bạn test trực quan từng công cụ trong số 18 tools (tính màu, layout 2D, depth 2.5D, 3D scene, animation...):
+Dùng lệnh này để mở giao diện Web trên trình duyệt, giúp bạn test trực quan từng công cụ trong số 31 tools (tính màu, layout 2D, depth 2.5D, 3D scene, animation, prompt engine, component spec...):
 
 ```bash
 npx @modelcontextprotocol/inspector ui-mcp serve
@@ -96,7 +96,7 @@ Trình duyệt sẽ mở tại `http://localhost:5173` để bạn nhập thông
   ui-mcp prompt list
   ui-mcp prompt show system_ui
   ```
-- **Chạy toàn bộ 17 Test Unit kiểm tra hệ thống:**
+- **Chạy toàn bộ 37 Test Unit kiểm tra hệ thống:**
   ```bash
   uv run --with pytest pytest tests/
   ```

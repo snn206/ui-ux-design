@@ -407,3 +407,30 @@ def _write_ide_config(tool: str, project_root: Path, force: bool) -> None:
 
     out_path.write_text(content, encoding="utf-8")
     console.print(f"  [green]✓[/green] {rel_path}")
+
+    # For Antigravity (agy): also register in workspace plugin and global config
+    if tool == "agy":
+        try:
+            plugin_dir = project_root / ".agents" / "plugins" / "ui-ux-design"
+            plugin_dir.mkdir(parents=True, exist_ok=True)
+            (plugin_dir / "plugin.json").write_text(
+                json.dumps({"name": "ui-ux-design", "description": "Anti-AI-UI Skills & MCP System"}, indent=2),
+                encoding="utf-8"
+            )
+            (plugin_dir / "mcp_config.json").write_text(content, encoding="utf-8")
+
+            global_cfg = Path.home() / ".gemini" / "config" / "mcp_config.json"
+            # Do not overwrite global config during automated pytest runs in /tmp
+            if global_cfg.parent.exists() and "pytest" not in sys.modules and not str(project_root).startswith("/tmp"):
+                gdata = {}
+                if global_cfg.exists():
+                    try:
+                        gdata = json.loads(global_cfg.read_text(encoding="utf-8"))
+                    except Exception:
+                        gdata = {}
+                if "mcpServers" not in gdata or not isinstance(gdata["mcpServers"], dict):
+                    gdata["mcpServers"] = {}
+                gdata["mcpServers"]["ui-ux-design"] = _server_block(project_root, var=False)
+                global_cfg.write_text(json.dumps(gdata, indent=2), encoding="utf-8")
+        except Exception:
+            pass
